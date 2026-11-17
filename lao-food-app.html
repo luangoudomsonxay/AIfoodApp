@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>อร่อยลาว – เมนูอาหารลาวและราคา</title>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@500;700;800&family=Sarabun:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--red:#C8102E;--deep:#8E0B20;--yellow:#FFC72C;--blue:#1B3F94;--green:#2E8B57;--orange:#F26B21;--pink:#E8467C;--ink:#2B1A14;--bg:#FFF6DE;--card:#FFFFFF;--muted:#7A5B4E}
+@media(prefers-color-scheme:dark){:root{--ink:#FFF1D6;--bg:#2A0E12;--card:#3D1A1F;--muted:#D9B9A6}}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font-family:'Sarabun',system-ui,sans-serif;background:var(--bg);color:var(--ink);max-width:520px;margin:0 auto;padding-bottom:84px}
+h1,h2,h3,.price,.tab{font-family:'Prompt','Sarabun',sans-serif}
+header{background:linear-gradient(135deg,var(--red) 0%,var(--deep) 100%);color:#fff;padding:calc(env(safe-area-inset-top,0px) + 18px) 18px 56px;border-radius:0 0 32px 32px;position:relative;overflow:hidden}
+header::after{content:"";position:absolute;right:-30px;top:-30px;width:150px;height:150px;border-radius:50%;background:var(--yellow);opacity:.9}
+header::before{content:"";position:absolute;right:50px;bottom:-40px;width:90px;height:90px;border-radius:50%;background:var(--blue);opacity:.85}
+header h1{font-size:30px;font-weight:800;position:relative;z-index:1}
+header p{position:relative;z-index:1;opacity:.95;margin-top:4px;max-width:70%}
+.search{margin:-28px 16px 0;position:relative;z-index:2}
+.search input{width:100%;border:0;border-radius:18px;padding:15px 18px;font:inherit;font-size:16px;background:var(--card);color:var(--ink);box-shadow:0 6px 18px rgba(142,11,32,.25)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:16px;scrollbar-width:none}
+.chip{flex:none;border:0;border-radius:99px;padding:9px 16px;font:600 14px 'Prompt',sans-serif;color:#fff;background:var(--c);opacity:.55}
+.chip.on{opacity:1;box-shadow:0 3px 0 rgba(0,0,0,.25)}
+.list{display:grid;gap:14px;padding:0 16px}
+.dish{background:var(--card);border-radius:22px;overflow:hidden;display:flex;box-shadow:0 4px 14px rgba(0,0,0,.1);border-left:8px solid var(--c)}
+.pic{width:112px;min-height:112px;flex:none;display:grid;place-items:center;font-size:48px;background:var(--c);background-size:cover;background-position:center}
+.info{padding:12px 14px;flex:1;min-width:0}
+.info h3{font-size:17px}
+.info small{color:var(--muted);display:block;margin-top:2px}
+.info p{font-size:14px;margin-top:6px;color:var(--muted)}
+.row{display:flex;align-items:center;justify-content:space-between;margin-top:8px;gap:8px}
+.price{background:var(--yellow);color:#5A1A00;font-weight:700;padding:5px 12px;border-radius:99px;font-size:15px}
+.fav{border:0;background:none;font-size:26px;line-height:1}
+.empty{text-align:center;padding:40px 20px;color:var(--muted)}
+nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;display:flex;background:var(--card);box-shadow:0 -4px 16px rgba(0,0,0,.15);padding:8px 8px calc(env(safe-area-inset-bottom,0px) + 8px);border-radius:22px 22px 0 0;z-index:5}
+.tab{flex:1;border:0;background:none;color:var(--muted);font-size:13px;padding:6px;border-radius:14px}
+.tab span{display:block;font-size:22px}
+.tab.on{color:var(--red);background:rgba(255,199,44,.35);font-weight:700}
+.sheet{position:fixed;inset:0;background:rgba(40,5,10,.6);display:none;align-items:flex-end;justify-content:center;z-index:10}
+.sheet.show{display:flex}
+.panel{background:var(--bg);width:100%;max-width:520px;max-height:92%;overflow:auto;border-radius:28px 28px 0 0;padding:0 0 calc(env(safe-area-inset-bottom,0px) + 20px)}
+.hero{height:240px;display:grid;place-items:center;font-size:96px;background:var(--c);background-size:cover;background-position:center;position:relative}
+.close{position:absolute;top:12px;right:12px;border:0;background:#fff;border-radius:50%;width:38px;height:38px;font-size:18px}
+.body{padding:16px 18px}
+.body h2{font-size:24px}
+.btn{width:100%;border:0;border-radius:16px;padding:14px;font:700 16px 'Prompt',sans-serif;color:#fff;background:linear-gradient(135deg,var(--orange),var(--red));margin-top:12px}
+.btn.alt{background:var(--blue)}
+.btn:disabled{opacity:.6}
+.msg{margin-top:10px;font-size:14px;color:var(--muted);min-height:20px}
+.field{display:block;margin:12px 0 4px;font-weight:600}
+.field+input{width:100%;padding:13px;border-radius:14px;border:2px solid var(--yellow);font:inherit;background:var(--card);color:var(--ink)}
+.note{background:var(--card);border-radius:16px;padding:14px;margin:12px 16px;font-size:14px;color:var(--muted);border-left:6px solid var(--green)}
+</style>
+</head>
+<body>
+<header>
+  <h1>อร่อยลาว 🇱🇦</h1>
+  <p>เมนูอาหารลาวแนะนำ พร้อมราคาโดยประมาณ</p>
+</header>
+
+<div id="home">
+  <div class="search"><input id="q" type="search" placeholder="ค้นหาเมนู เช่น ลาบ ตำหมากหุ่ง"></div>
+  <div class="chips" id="chips"></div>
+  <div class="list" id="list"></div>
+</div>
+
+<div id="settings" hidden>
+  <div class="note">แอปนี้ใช้ OpenAI API สร้างรูปอาหารให้สวยงาม ใส่คีย์ของคุณด้านล่าง คีย์และรูปทั้งหมดเก็บไว้ในเครื่องนี้เท่านั้น (localStorage)</div>
+  <div style="padding:0 16px">
+    <label class="field" for="key">OpenAI API Key</label>
+    <input id="key" type="password" placeholder="sk-..." autocomplete="off">
+    <button class="btn" id="saveKey">บันทึกคีย์</button>
+    <button class="btn alt" id="clearImgs">ล้างรูปที่สร้างไว้</button>
+    <p class="msg" id="setMsg"></p>
+  </div>
+</div>
+
+<nav>
+  <button class="tab on" data-t="home"><span>🍲</span>เมนู</button>
+  <button class="tab" data-t="fav"><span>❤️</span>ที่ชอบ</button>
+  <button class="tab" data-t="settings"><span>⚙️</span>ตั้งค่า</button>
+</nav>
+
+<div class="sheet" id="sheet"><div class="panel" id="panel"></div></div>
+<input type="file" id="file" accept="image/*" hidden>
+
+<script>
+const DISHES=[
+{id:1,n:"ตำหมากหุ่ง",l:"ຕຳໝາກຫຸ່ງ",cat:"ยำ/ตำ",p:25000,e:"🥗",c:"#2E8B57",d:"ส้มตำลาวรสเค็มจัดจ้าน ใส่ปลาแดกและปูเค็ม กินกับข้าวเหนียว",pr:"papaya salad Lao tam mak hoong in a clay mortar with chili, tomato and long beans"},
+{id:2,n:"ลาบเป็ด/หมู",l:"ລາບ",cat:"ยำ/ตำ",p:35000,e:"🍖",c:"#C8102E",d:"อาหารประจำชาติ เนื้อสับคลุกข้าวคั่ว มะนาว พริก สะระแหน่",pr:"Lao larb minced meat salad with toasted rice powder, mint and herbs, fresh vegetables on the side"},
+{id:3,n:"ข้าวเหนียว",l:"ເຂົ້າໜຽວ",cat:"ข้าว/เส้น",p:5000,e:"🍚",c:"#F2A900",d:"ข้าวหลักของคนลาว นึ่งใหม่ๆ ใส่ติ๊บข้าว",pr:"Lao sticky rice in a woven bamboo basket tip khao, steam rising"},
+{id:4,n:"ออลาม",l:"ເອາະລາມ",cat:"แกง/ซุป",p:45000,e:"🍲",c:"#8E0B20",d:"สตูว์หลวงพระบาง ใส่เนื้อ พริกขี้หนู และสะค่าน ลิ้นชาเล็กน้อย",pr:"Luang Prabang or lam stew with buffalo meat, eggplant and sakhan wood in a bowl"},
+{id:5,n:"ข้าวเปียกเส้น",l:"ເຂົ້າປຽກເສັ້ນ",cat:"ข้าว/เส้น",p:25000,e:"🍜",c:"#F26B21",d:"เส้นหนานุ่มในน้ำซุปไก่ใส โรยกระเทียมเจียวและผักชี",pr:"Lao khao piak sen thick chewy noodle chicken soup with fried garlic and cilantro"},
+{id:6,n:"ไส้อั่วลาว",l:"ໄສ້ອົ່ວ",cat:"ย่าง/ทอด",p:40000,e:"🌭",c:"#E8467C",d:"ไส้กรอกสมุนไพรย่างหอมตะไคร้ ใบมะกรูด",pr:"Lao herb sausage sai oua grilled, sliced, with sticky rice and chili dip"},
+{id:7,n:"หมกปลา",l:"ໝົກປາ",cat:"แกง/ซุป",p:35000,e:"🐟",c:"#2E8B57",d:"ปลานึ่งห่อใบตอง เครื่องสมุนไพร หอมนุ่ม",pr:"Lao steamed fish mok pa in banana leaf parcels opened to show herbs"},
+{id:8,n:"ไก่ย่างลาว",l:"ປີ້ງໄກ່",cat:"ย่าง/ทอด",p:50000,e:"🍗",c:"#F26B21",d:"ไก่บ้านย่างถ่าน หนังกรอบ จิ้มแจ่วบอง",pr:"Lao charcoal grilled chicken ping kai on skewers with jeow dipping sauce"},
+{id:9,n:"ฟึ",l:"ເຝີ",cat:"ข้าว/เส้น",p:30000,e:"🥢",c:"#1B3F94",d:"เฝอแบบลาว ซุปใสหวานกลมกล่อม กินกับผักสดมากมาย",pr:"Lao feu pho noodle soup with a large plate of fresh herbs, lime and bean sprouts"},
+{id:10,n:"แจ่วบอง",l:"ແຈ່ວບອງ",cat:"น้ำพริก",p:15000,e:"🌶️",c:"#C8102E",d:"น้ำพริกปลาร้า ข่า ตะไคร้ เผ็ดหอม กินกับผักและหมูแคบ",pr:"Lao jeow bong chili paste in a bowl with pork rinds and fresh vegetables"},
+{id:11,n:"ซีนแดด",l:"ຊີ້ນແດດ",cat:"ย่าง/ทอด",p:60000,e:"🥩",c:"#8E0B20",d:"เนื้อตากแดดทอดกรอบ หวานเค็ม กินกับข้าวเหนียว",pr:"Lao sun-dried beef sin dad fried crisp, served with sticky rice and jeow"},
+{id:12,n:"กาแฟลาว",l:"ກາເຟລາວ",cat:"ของหวาน/เครื่องดื่ม",p:15000,e:"☕",c:"#6B3A1E",d:"กาแฟจากที่ราบสูงโบลาเวน เข้มหอม ใส่นมข้นหวาน",pr:"Lao iced coffee from Bolaven plateau in a glass with condensed milk"},
+{id:13,n:"ข้าวจี่ปาเต้",l:"ເຂົ້າຈີ່ປາເຕ້",cat:"ของหวาน/เครื่องดื่ม",p:20000,e:"🥖",c:"#F2A900",d:"ขนมปังบาแกตต์สไตล์ลาว ใส่ปาเต้ ผักดอง และพริก",pr:"Lao baguette sandwich khao jee pate with pate, pickled vegetables and chili"}
+];
+const CATS=["ทั้งหมด","ยำ/ตำ","ข้าว/เส้น","แกง/ซุป","ย่าง/ทอด","น้ำพริก","ของหวาน/เครื่องดื่ม"];
+const COL=["#C8102E","#F2A900","#2E8B57","#1B3F94","#F26B21","#E8467C","#6B3A1E"];
+const $=s=>document.querySelector(s);
+const load=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}};
+const save=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}};
+let favs=load("lao_favs",[]),imgs=load("lao_imgs",{}),cat="ทั้งหมด",tab="home";
+const fmt=p=>p.toLocaleString("th-TH")+" กีบ";
+const thb=p=>"≈ "+Math.round(p/620)+" บาท";
+const bg=d=>imgs[d.id]?`style="--c:${d.c};background-image:url(${imgs[d.id]})"`:`style="--c:${d.c}"`;
+
+function render(){
+  $("#chips").innerHTML=CATS.map((c,i)=>`<button class="chip ${c===cat?'on':''}" style="--c:${COL[i]}" data-c="${c}">${c}</button>`).join("");
+  const q=$("#q").value.trim();
+  let L=DISHES.filter(d=>(cat==="ทั้งหมด"||d.cat===cat)&&(!q||(d.n+d.l+d.d).includes(q)));
+  if(tab==="fav")L=L.filter(d=>favs.includes(d.id));
+  $("#list").innerHTML=L.length?L.map(d=>`<div class="dish" style="--c:${d.c}" data-id="${d.id}">
+    <div class="pic" ${bg(d)}>${imgs[d.id]?"":d.e}</div>
+    <div class="info"><h3>${d.n}</h3><small>${d.l}</small><p>${d.d}</p>
+    <div class="row"><span class="price">${fmt(d.p)}</span><button class="fav" data-f="${d.id}" aria-label="ชอบ">${favs.includes(d.id)?"❤️":"🤍"}</button></div></div></div>`).join(""):
+    `<div class="empty">${tab==="fav"?"ยังไม่มีเมนูที่ชอบ แตะ 🤍 เพื่อเก็บไว้":"ไม่พบเมนูที่ค้นหา"}</div>`;
+}
+function setTab(t){
+  tab=t;
+  document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("on",b.dataset.t===t));
+  $("#home").hidden=t==="settings";$("#settings").hidden=t!=="settings";
+  if(t!=="settings")render();
+}
+document.querySelector("nav").onclick=e=>{const b=e.target.closest(".tab");if(b)setTab(b.dataset.t)};
+$("#q").oninput=render;
+$("#chips").onclick=e=>{const b=e.target.closest(".chip");if(b){cat=b.dataset.c;render()}};
+$("#list").onclick=e=>{
+  const f=e.target.closest("[data-f]");
+  if(f){const id=+f.dataset.f;favs=favs.includes(id)?favs.filter(x=>x!==id):[...favs,id];save("lao_favs",favs);render();return}
+  const c=e.target.closest(".dish");if(c)openDish(+c.dataset.id);
+};
+
+let cur=null;
+function openDish(id){
+  cur=DISHES.find(d=>d.id===id);
+  $("#panel").innerHTML=`<div class="hero" ${bg(cur)}>${imgs[cur.id]?"":cur.e}<button class="close" id="x">✕</button></div>
+  <div class="body"><h2>${cur.n}</h2><small style="color:var(--muted)">${cur.l} · ${cur.cat}</small>
+  <p style="margin:10px 0">${cur.d}</p>
+  <span class="price" style="font-size:20px">${fmt(cur.p)}</span> <small style="color:var(--muted)">${thb(cur.p)} (โดยประมาณ)</small>
+  <button class="btn" id="gen">✨ สร้างรูปสวยด้วย AI</button>
+  <button class="btn alt" id="up">📷 แปลงรูปอาหารของฉัน</button>
+  <p class="msg" id="msg"></p></div>`;
+  $("#sheet").classList.add("show");
+}
+const closeSheet=()=>$("#sheet").classList.remove("show");
+$("#sheet").onclick=e=>{if(e.target.id==="sheet"||e.target.id==="x")closeSheet()};
+
+function shrink(b64){return new Promise(r=>{const i=new Image();i.onload=()=>{const s=512,c=document.createElement("canvas");c.width=c.height=s;c.getContext("2d").drawImage(i,0,0,s,s);r(c.toDataURL("image/jpeg",.8))};i.src="data:image/png;base64,"+b64})}
+const apiKey=()=>(load("lao_key","")||"").trim();
+function busy(on,t){$("#gen").disabled=on;$("#up").disabled=on;$("#msg").textContent=t||""}
+async function finish(j){
+  if(j.error)throw new Error(j.error.message);
+  imgs[cur.id]=await shrink(j.data[0].b64_json);
+  if(!save("lao_imgs",imgs)){delete imgs[cur.id];throw new Error("พื้นที่จัดเก็บเต็ม ลองล้างรูปในตั้งค่า")}
+  render();openDish(cur.id);$("#msg").textContent="เสร็จแล้ว! บันทึกรูปไว้ในเครื่องแล้ว";
+}
+$("#panel").onclick=async e=>{
+  if(e.target.id==="x")return closeSheet();
+  if(e.target.id==="up"){if(!apiKey())return $("#msg").textContent="กรุณาใส่ API Key ในหน้าตั้งค่าก่อน";$("#file").click();return}
+  if(e.target.id!=="gen")return;
+  if(!apiKey())return $("#msg").textContent="กรุณาใส่ API Key ในหน้าตั้งค่าก่อน";
+  busy(true,"กำลังสร้างรูป รอสักครู่...");
+  try{
+    const r=await fetch("https://api.openai.com/v1/images/generations",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+apiKey()},
+      body:JSON.stringify({model:"gpt-image-1",prompt:"Beautiful vibrant professional food photograph, warm natural light, colorful, top-down on a rustic table: "+cur.pr,size:"1024x1024",quality:"low",n:1})});
+    await finish(await r.json());
+  }catch(err){busy(false,"ผิดพลาด: "+err.message)}
+};
+$("#file").onchange=async e=>{
+  const f=e.target.files[0];e.target.value="";if(!f||!cur)return;
+  busy(true,"กำลังแปลงรูปให้สวยงาม...");
+  try{
+    const fd=new FormData();fd.append("model","gpt-image-1");fd.append("image",f);fd.append("size","1024x1024");fd.append("quality","low");
+    fd.append("prompt","Turn this into a beautiful, vibrant, professional photo of "+cur.pr+". Keep the dish, improve lighting, color and plating.");
+    const r=await fetch("https://api.openai.com/v1/images/edits",{method:"POST",headers:{Authorization:"Bearer "+apiKey()},body:fd});
+    await finish(await r.json());
+  }catch(err){busy(false,"ผิดพลาด: "+err.message)}
+};
+$("#key").value=load("lao_key","");
+$("#saveKey").onclick=()=>{save("lao_key",$("#key").value.trim());$("#setMsg").textContent="บันทึกคีย์แล้ว"};
+$("#clearImgs").onclick=()=>{imgs={};save("lao_imgs",imgs);$("#setMsg").textContent="ล้างรูปแล้ว"};
+render();
+</script>
+</body>
+</html>
